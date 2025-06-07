@@ -1,0 +1,13 @@
+from functools import cache
+prices=[3,3,5,0,0,3,1,4]
+n=len(prices)
+k=2
+@cache
+def dfs(i,hold,count):
+    if i<0:
+        return float('-inf') if count <k else (0 if hold==0 else float('inf'))
+    if hold==0:
+        return max(dfs(i-1,1,count)+prices[i],dfs(i-1,0,count))
+    if hold==1:
+        return max(dfs(i-1,0,count+1)-prices[i],dfs(i-1,1,count))
+print(dfs(n-1,0,0))

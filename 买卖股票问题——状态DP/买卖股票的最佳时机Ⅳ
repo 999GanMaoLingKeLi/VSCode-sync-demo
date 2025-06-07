@@ -1,0 +1,38 @@
+#记忆化搜索/动态规划
+from functools import cache
+prices=[3,3,5,0,0,3,1,4]
+n=len(prices)
+k=2
+@cache
+def dfs(i,hold,remain):
+    if remain<0:
+        return float('-inf')
+    if i<0:
+        return 0 if hold ==0 else float('-inf')
+    if hold==0:
+        return max(dfs(i-1,1,remain)+prices[i],dfs(i-1,0,remain))
+    if hold==1:
+        return max(dfs(i-1,0,remain-1)-prices[i],dfs(i-1,1,remain))
+print(dfs(n-1,0,k))  
+#递推
+dp=[[[float('-inf')]*(k+1) for _ in range(2)] for _ in range(n+1)]
+for j in range(k+1):
+    dp[0][0][j]=0
+for i,price in enumerate(prices):
+    for j in range(k+1):
+        dp[i+1][0][j]=max(dp[i][1][j]+price, dp[i][0][j])
+        if j>0:
+            dp[i+1][1][j]=max(dp[i][0][j-1]-price, dp[i][1][j])
+print(dp[n][0][k])
+#缩减状态
+dp0=[0]*(k+1)
+dp1=[float('-inf')]*(k+1)
+new_dp0=[0]*(k+1)
+for price in prices:
+    for j in range(k+1):
+        new_dp0[j]=max(dp1[j]+price, dp0[j])
+        if j>0:
+            dp1[j]=max(dp0[j-1]-price, dp1[j])
+        dp0[j]=new_dp0[j]
+print(dp0[k])
+
