@@ -1,8 +1,9 @@
 #测试修改上传代码class node:
+class node:    
     def __init__(self,val):
-        self.val=val
-        self.next=None
-        self.pre=None
+            self.val=val
+            self.next=None
+            self.pre=None
 class MyLinkedList:
 
     def __init__(self):
