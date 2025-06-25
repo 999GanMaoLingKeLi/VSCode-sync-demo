@@ -23,7 +23,8 @@ def solve():
     # 将此边加入图中
     adjacency[a].append(b)
     adjacency[b].append(a)
-    
+    print(adjacency)
+
     # BFS 计算每个城市到首都 1 的最短距离
     dist = [-1] * (n+1)
     dist[1] = 0
